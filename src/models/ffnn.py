@@ -235,11 +235,18 @@ class FeedForwardNN:
         filename : str
             Path to save the model
         """
+        # Determine the loss function name
+        loss_fn_name = None
+        for name, func in self.loss_fn.__class__.__dict__.items():
+            if func is self.loss_fn:
+                loss_fn_name = name
+                break
+
         model_data = {
             'weights': [layer.weights for layer in self.layers],
             'biases': [layer.biases for layer in self.layers],
             'activations': [layer.activation.name for layer in self.layers],
-            'loss_fn': self.loss_fn.__name__
+            'loss_fn': loss_fn_name or 'unknown'
         }
         np.save(filename, model_data)
         print(f"Model saved to {filename}")

@@ -2,31 +2,41 @@ import numpy as np
 import matplotlib.pyplot as plt
 from utils.dataset import load_mnist
 from models.ffnn import FeedForwardNN
+from configs.config_loader import load_config
 
 def analyze_overfitting():
+    # Load configuration
+    config = load_config()
+
+    # Load MNIST dataset
     X_train, X_test, y_train, y_test = load_mnist()
 
-    # 80% training, 20% validation
-    train_size = int(0.8 * len(X_train))
-    X_train_split = X_train[:train_size]
-    y_train_split = y_train[:train_size]
-    X_val = X_train[train_size:]
-    y_val = y_train[train_size:]
+    # Calculate validation split based on config
+    val_size = int(len(X_train) * config['data']['validation_split'])
+    X_train_split = X_train[val_size:]
+    y_train_split = y_train[val_size:]
+    X_val = X_train[:val_size]
+    y_val = y_train[:val_size]
 
+    # Create model using configuration
     model = FeedForwardNN(
-        input_size=784,
-        hidden_layers=[256, 128, 64],
-        output_size=10,
-        activations=["relu", "relu", "relu", "softmax"]
+        input_size=config['model']['input_size'],
+        hidden_layers=config['model']['hidden_layers'],
+        output_size=config['model']['output_size'],
+        activations=config['model']['activations'],
+        weight_init=config['model']['weight_init'],
+        weight_init_params=config.get('weight_init_params', None),
+        loss_function=config['model']['loss_function']
     )
 
-    # Train with validation data
+    # Train with validation data using config parameters
     history = model.train(
         X_train_split, y_train_split, 
         X_val=X_val, y_val=y_val,
-        learning_rate=0.01, 
-        epochs=20, 
-        verbose=1
+        batch_size=config['training']['batch_size'],
+        learning_rate=config['training']['learning_rate'], 
+        epochs=config['training']['epochs'], 
+        verbose=config['training']['verbose']
     )
 
     # Visualize training progress
@@ -76,6 +86,9 @@ def analyze_overfitting():
     else:
         print("\n✅ No Strong Signs of Overfitting")
         print("Model performance seems consistent across training and validation sets.")
+
+    if 'save' in config and 'model_path' in config['save']:
+        model.save(config['save']['model_path'])
 
 if __name__ == "__main__":
     analyze_overfitting()
