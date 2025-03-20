@@ -9,10 +9,9 @@ model = FeedForwardNN(
     hidden_layers=[256, 128, 64],
     output_size=10,
     activations=["relu", "relu", "relu", "softmax"],
-    learning_rate=0.01  
 )
 
-model.train(X_train, y_train, epochs=200)
+model.train(X_train, y_train, learning_rate=0.01, epochs=20)
 
 def evaluate(model, X_test, y_test):
     predictions = model.forward(X_test)
