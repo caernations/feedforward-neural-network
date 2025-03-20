@@ -1,0 +1,34 @@
+# Neural Network Configuration
+
+# Model Architecture
+model:
+  input_size: 784
+  hidden_layers: [256, 128, 64] # Daftar ukuran layer tersembunyi
+  output_size: 10 
+  activations: ["relu", "relu", "relu", "softmax"] # Fungsi aktivasi untuk setiap layer
+  weight_init: "xavier" # Metode inisialisasi bobot
+  loss_function: "categorical_crossentropy" # Fungsi loss
+
+# Training Parameters
+training:
+  batch_size: 32
+  learning_rate: 0.01
+  epochs: 20
+  verbose: 1
+
+# Weight Initialization Parameters (opsional)
+weight_init_params:
+  lower_bound: -0.1
+  upper_bound: 0.1
+  seed: 42
+  mean: 0
+  variance: 0.1
+
+# Data Parameters
+data:
+  validation_split: 0.2 # Rasio validasi
+
+# Model Saving
+save:
+  model_path: "models/saved_model.npy" # Path untuk menyimpan model
+  save_frequency: 10 # Simpan model setiap N epoch
