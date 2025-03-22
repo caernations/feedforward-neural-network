@@ -1,7 +1,8 @@
 import numpy as np
-from utils.dataset import load_mnist
-from models.ffnn import FeedForwardNN
 from configs.config_loader import load_config
+from models.ffnn import FeedForwardNN
+from utils.visualization import NetworkVisualizer
+from utils.dataset import load_mnist
 
 def main():
     # Load configuration
@@ -38,16 +39,32 @@ def main():
         verbose=config['training']['verbose']
     )
 
-    # Evaluate the model
+    # Create visualizer
+    visualizer = NetworkVisualizer(model)
+    
+    # 1. Visualisasi struktur jaringan
+    print("Menampilkan struktur jaringan...")
+    visualizer.visualize_network_structure()
+    
+    # 2. Visualisasi distribusi bobot
+    print("Menampilkan distribusi bobot untuk semua layer...")
+    visualizer.visualize_weight_distribution()
+    
+    # 3. Visualisasi distribusi bobot untuk layer tertentu
+    print("Menampilkan distribusi bobot untuk layer 0 dan 1...")
+    visualizer.visualize_weight_distribution([0, 1])
+    
+    # 4. Visualisasi distribusi gradien
+    print("Menampilkan distribusi gradien...")
+    visualizer.visualize_gradient_distribution()
+    
+    # Evaluasi model
     def evaluate(model, X_test, y_test):
         predictions = model.forward(X_test)
         accuracy = np.mean(np.argmax(predictions, axis=1) == np.argmax(y_test, axis=1))
         print(f"Accuracy: {accuracy * 100:.2f}%")
 
     evaluate(model, X_test, y_test)
-
-    # Save the model
-    model.save(config['save']['model_path'])
 
 if __name__ == "__main__":
     main()
