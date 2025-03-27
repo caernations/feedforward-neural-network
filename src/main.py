@@ -55,13 +55,13 @@ def main():
     )
     loaded_model.load("saved_model.npy")
 
-    # Visualisasi network
-    print("\nVisualisasi jaringan:")
-    visualizer = NetworkVisualizer(loaded_model)
-    visualizer.visualize_network_structure()
-    visualizer.visualize_weight_distribution()
-    visualizer.visualize_weight_distribution([0, 1])
-    visualizer.visualize_gradient_distribution()
+    # # Visualisasi network
+    # print("\nVisualisasi jaringan:")
+    # visualizer = NetworkVisualizer(loaded_model)
+    # visualizer.visualize_network_structure()
+    # visualizer.visualize_weight_distribution()
+    # visualizer.visualize_weight_distribution([0, 1])
+    # visualizer.visualize_gradient_distribution()
 
     def compute_accuracy(model, X, y):
         predictions = model.forward(X, training=False)

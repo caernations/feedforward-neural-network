@@ -3,10 +3,11 @@ from models.activations import ActivationFunctions
 
 
 class DenseLayer:
-    def __init__(self, input_size, output_size, activation, weight_init='xavier', weight_init_params=None):
+    def __init__(self, input_size, output_size, activation, loss, weight_init='xavier', weight_init_params=None):
         self.input_size = input_size
         self.output_size = output_size
         self.activation = activation
+        self.loss = loss
 
         # Initialize weights based on the requested method
         if weight_init == 'zero':
@@ -60,12 +61,23 @@ class DenseLayer:
         return self.output
 
     def backward(self, dvalues):
-        # Get activation gradient
-        if self.activation.name != 'softmax':
-            dZ = dvalues * self.activation.forward(self.z, derivative=True)
-        else:
-            dZ = dvalues
+        if self.activation.name == 'softmax':
+            if self.loss=="categorical_crossentropy":
+                dZ = dvalues
 
+            else:
+                # Get the Jacobian matrices for each example in the batch
+                jacobian_matrices = self.activation.forward(self.z, derivative=True)
+                
+                # Initialize the output array
+                dZ = np.zeros_like(dvalues)
+                
+                # For each example in the batch
+                for i in range(len(dvalues)):
+                    dZ[i] = jacobian_matrices[i] @ dvalues[i]
+        else:
+            dZ = dvalues * self.activation.forward(self.z, derivative=True)
+        
         # Compute gradients for weights and biases
         self.dweights = np.dot(self.inputs.T, dZ)
         self.dbiases = np.sum(dZ, axis=0, keepdims=True)

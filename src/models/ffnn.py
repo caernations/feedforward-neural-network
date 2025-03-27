@@ -55,8 +55,9 @@ class FeedForwardNN:
                 layer_sizes[i],
                 layer_sizes[i+1],
                 activation,
+                loss_function,
                 weight_init,
-                weight_init_params
+                weight_init_params,
             ))
 
         # Set loss function
