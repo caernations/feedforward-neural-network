@@ -96,7 +96,9 @@ base_config = load_config()
 activation_configs = [
     {'activation': 'sigmoid', 'name': 'Sigmoid'},
     {'activation': 'tanh', 'name': 'Tanh'},
-    {'activation': 'relu', 'name': 'ReLU'}
+    {'activation': 'relu', 'name': 'ReLU'},
+    {'activation': 'linear', 'name': 'Linear'},
+    {'activation': 'softmax', 'name': 'Softmax'}
 ]
 activation_results = {}
 for cfg in activation_configs:
@@ -117,6 +119,7 @@ plt.show()
 # Analisis Learning Rate
 lr_configs = [
     {'lr': 0.01, 'name': 'LR 0.01'},
+    {'lr': 0.01, 'name': 'LR 0.05'},
     {'lr': 0.1, 'name': 'LR 0.1'},
     {'lr': 0.5, 'name': 'LR 0.5'}
 ]
