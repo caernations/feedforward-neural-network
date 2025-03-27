@@ -91,27 +91,8 @@ plt.legend()
 plt.tight_layout()
 plt.show()
 
-
-def train_and_evaluate(config):
-    history = {'train_loss': np.random.rand(10)}
-    accs = (0.8, 0.85, 0.87)  # Contoh akurasi (train, val, test)
-    model = type('Model', (object,), {'layers': [{'weights': np.random.randn(10, 10)}]})()
-    return model, history, accs
-
-# Konfigurasi dasar
-base_config = {
-    'model': {
-        'hidden_layers': [64, 32],
-        'activations': []
-    },
-    'training': {
-        'learning_rate': 0.01,
-        'epochs': 10,
-        'batch_size': 32
-    }
-}
-
 # Analisis Fungsi Aktivasi
+base_config = load_config()
 activation_configs = [
     {'activation': 'sigmoid', 'name': 'Sigmoid'},
     {'activation': 'tanh', 'name': 'Tanh'},
@@ -158,8 +139,10 @@ plt.show()
 # Analisis Inisialisasi Bobot
 init_configs = [
     {'init': 'xavier', 'name': 'Xavier'},
+    {'init': 'zero', 'name': 'Zero'},
+    {'init': 'uniform', 'name': 'Uniform'},
     {'init': 'he', 'name': 'He'},
-    {'init': 'random', 'name': 'Random'}
+    {'init': 'normal', 'name': 'Normal'},
 ]
 init_results = {}
 for cfg in init_configs:
@@ -178,6 +161,7 @@ plt.legend()
 plt.show()
 
 # Perbandingan dengan Sklearn MLP
+base_config = load_config()
 ffnn_model, _, (_, _, ffnn_test_acc) = train_and_evaluate(base_config)
 mlp = MLPClassifier(
     hidden_layer_sizes=base_config['model']['hidden_layers'],
@@ -186,7 +170,6 @@ mlp = MLPClassifier(
     max_iter=base_config['training']['epochs'],
     batch_size=base_config['training']['batch_size']
 )
-X_train, y_train, X_test, y_test = np.random.rand(100, 10), np.random.randint(0, 2, 100), np.random.rand(50, 10), np.random.randint(0, 2, 50)
-mlp.fit(X_train, y_train)
-sklearn_test_acc = accuracy_score(y_test, mlp.predict(X_test))
+mlp.fit(X_train, np.argmax(y_train, axis=1))
+sklearn_test_acc = mlp.score(X_test, np.argmax(y_test, axis=1))
 print(f"Test Accuracy:\nFFNN: {ffnn_test_acc:.4f}\nSklearn: {sklearn_test_acc:.4f}")

@@ -13,7 +13,7 @@ model:
 training:
   batch_size: 32
   learning_rate: 0.01
-  epochs: 20
+  epochs: 10
   verbose: 1
 
 # Weight Initialization Parameters (opsional)
