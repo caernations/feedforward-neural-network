@@ -11,10 +11,10 @@ def main():
     print("\nMemuat dataset MNIST...")
     X_train, X_test, y_train, y_test = load_mnist()
 
-    val_size = int(len(X_train) * config['data']['validation_split'])  # 60,000 * 0.2 = 12,000
+    val_size = int(len(X_train) * config['data']['validation_split'])  
     X_val = X_train[:val_size]
     y_val = y_train[:val_size]
-    X_train = X_train[val_size:]  # 60,000 - 12,000 = 48,000
+    X_train = X_train[val_size:] 
     y_train = y_train[val_size:]
 
 

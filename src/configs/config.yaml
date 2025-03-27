@@ -3,11 +3,11 @@
 # Model Architecture
 model:
   input_size: 784
-  hidden_layers: [256, 128, 64] # Daftar ukuran layer tersembunyi
+  hidden_layers: [256, 128, 64] 
   output_size: 10 
-  activations: ["relu", "relu", "relu", "softmax"] # Fungsi aktivasi untuk setiap layer
-  weight_init: "xavier" # Metode inisialisasi bobot
-  loss_function: "categorical_crossentropy" # Fungsi loss
+  activations: ["relu", "relu", "relu", "softmax"] 
+  weight_init: "xavier"
+  loss_function: "categorical_crossentropy"
 
 # Training Parameters
 training:
@@ -26,9 +26,9 @@ weight_init_params:
 
 # Data Parameters
 data:
-  validation_split: 0.2 # Rasio validasi
+  validation_split: 0.2 
 
 # Model Saving
 save:
-  model_path: "models/saved_model.npy" # Path untuk menyimpan model
-  save_frequency: 10 # Simpan model setiap N epoch
+  model_path: "models/saved_model.npy" 
+  save_frequency: 10 

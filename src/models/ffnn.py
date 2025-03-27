@@ -28,7 +28,7 @@ class FeedForwardNN:
             Loss function to use ('mse', 'binary_crossentropy', 'categorical_crossentropy')
         """
         self.layers = []
-        self.layer_outputs = []  # Store outputs from each layer during forward pass
+        self.layer_outputs = []  
 
         # Set up layers
         layer_sizes = [input_size] + hidden_layers + [output_size]
@@ -162,12 +162,10 @@ class FeedForwardNN:
         for epoch in range(epochs):
             epoch_loss = 0
 
-            # Shuffle data for this epoch
             indices = np.random.permutation(n_samples)
             X_shuffled = X_train[indices]
             y_shuffled = y_train[indices]
 
-            # Create progress bar if verbose
             if verbose == 1:
                 batch_iterator = tqdm(
                     range(n_batches), desc=f'Epoch {epoch+1}/{epochs}')
@@ -176,7 +174,6 @@ class FeedForwardNN:
 
             # Mini-batch training
             for batch_idx in batch_iterator:
-                # Get batch data
                 start_idx = batch_idx * batch_size
                 end_idx = min(start_idx + batch_size, n_samples)
                 X_batch = X_shuffled[start_idx:end_idx]
@@ -192,7 +189,6 @@ class FeedForwardNN:
                 # Update weights
                 self.update_weights(learning_rate)
 
-            # Calculate average loss for the epoch
             avg_train_loss = epoch_loss / n_samples
             history['train_loss'].append(avg_train_loss)
 
@@ -236,7 +232,6 @@ class FeedForwardNN:
         filename : str
             Path to save the model
         """
-        # Determine the loss function name
         loss_fn_name = None
         for name, func in self.loss_fn.__class__.__dict__.items():
             if func is self.loss_fn:

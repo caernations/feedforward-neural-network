@@ -5,20 +5,15 @@ from utils.visualization import NetworkVisualizer
 from utils.dataset import load_mnist
 
 def main():
-    # Load configuration
     config = load_config()
-
-    # Load MNIST dataset
     X_train, X_test, y_train, y_test = load_mnist()
 
-    # Calculate validation split
     val_size = int(len(X_train) * config['data']['validation_split'])
     X_val = X_train[:val_size]
     y_val = y_train[:val_size]
     X_train = X_train[val_size:]
     y_train = y_train[val_size:]
 
-    # Create model with configuration
     model = FeedForwardNN(
         input_size=config['model']['input_size'],
         hidden_layers=config['model']['hidden_layers'],
@@ -29,7 +24,6 @@ def main():
         loss_function=config['model']['loss_function']
     )
 
-    # Train the model
     history = model.train(
         X_train, y_train, 
         X_val=X_val, y_val=y_val,
@@ -39,26 +33,20 @@ def main():
         verbose=config['training']['verbose']
     )
 
-    # Create visualizer
     visualizer = NetworkVisualizer(model)
     
-    # 1. Visualisasi struktur jaringan
     print("Menampilkan struktur jaringan...")
     visualizer.visualize_network_structure()
     
-    # 2. Visualisasi distribusi bobot
     print("Menampilkan distribusi bobot untuk semua layer...")
     visualizer.visualize_weight_distribution()
     
-    # 3. Visualisasi distribusi bobot untuk layer tertentu
     print("Menampilkan distribusi bobot untuk layer 0 dan 1...")
     visualizer.visualize_weight_distribution([0, 1])
     
-    # 4. Visualisasi distribusi gradien
     print("Menampilkan distribusi gradien...")
     visualizer.visualize_gradient_distribution()
     
-    # Evaluasi model
     def evaluate(model, X_test, y_test):
         predictions = model.forward(X_test)
         accuracy = np.mean(np.argmax(predictions, axis=1) == np.argmax(y_test, axis=1))

@@ -72,3 +72,9 @@ File `config.yaml` berisi semua parameter yang dapat dikonfigurasi:
 - Visualisasi arsitektur model dan distribusi bobot
 - Konfigurasi melalui file YAML
 - Progress bar untuk monitoring training
+
+## Author
+| **Name**                                                | **NIM**  |
+| ------------------------------------------------------- | -------- |
+| [Yasmin Farisah Salma](https://github.com/caernations) | 13522140 |
+| [Mohammad Akmal Ramadan](https://github.com/akmalrmn)   | 13522161 |

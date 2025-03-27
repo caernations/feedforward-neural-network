@@ -32,7 +32,6 @@ class BinaryCrossEntropy(Loss):
         Binary Cross-Entropy loss function
         BCE = -(1/n) * Σ(y_true * log(y_pred) + (1 - y_true) * log(1 - y_pred))
         """
-        # Clip values to avoid log(0)
         y_pred_clipped = np.clip(y_pred, 1e-15, 1 - 1e-15)
         return -np.mean(y_true * np.log(y_pred_clipped) + (1 - y_true) * np.log(1 - y_pred_clipped))
     
@@ -42,7 +41,6 @@ class BinaryCrossEntropy(Loss):
         dBCE/dy_pred = -(1/n) * ((1-y_true)/(1-y_pred) - y_true/y_pred)
         """
         samples = len(y_pred)
-        # Clip values to avoid division by zero
         y_pred_clipped = np.clip(y_pred, 1e-15, 1 - 1e-15)
         self.dinputs = ((1 - y_true) / (1 - y_pred_clipped) - y_true / y_pred_clipped) / samples
         return self.dinputs
@@ -69,7 +67,6 @@ class CategoricalCrossEntropy(Loss):
         self.dinputs /= samples
         return self.dinputs
 
-# Dictionary of available loss functions for easy access
 LossFunctions = {
     "mse": MSE(),
     "binary_crossentropy": BinaryCrossEntropy(),

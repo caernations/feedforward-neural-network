@@ -60,9 +60,7 @@ class DenseLayer:
 
     def forward(self, inputs):
         self.inputs = inputs
-        # Linear transformation (W·x + b)
         self.z = np.dot(inputs, self.weights) + self.biases
-        # Apply activation function
         self.output = self.activation.forward(self.z)
         return self.output
 
@@ -72,23 +70,15 @@ class DenseLayer:
                 dZ = dvalues
 
             else:
-                # Get the Jacobian matrices for each example in the batch
                 jacobian_matrices = self.activation.forward(self.z, derivative=True)
-                
-                # Initialize the output array
                 dZ = np.zeros_like(dvalues)
-                
-                # For each example in the batch
                 for i in range(len(dvalues)):
                     dZ[i] = jacobian_matrices[i] @ dvalues[i]
         else:
             dZ = dvalues * self.activation.forward(self.z, derivative=True)
         
-        # Compute gradients for weights and biases
         self.dweights = np.dot(self.inputs.T, dZ)
         self.dbiases = np.sum(dZ, axis=0, keepdims=True)
-
-        # Compute gradient for next layer
         dinputs = np.dot(dZ, self.weights.T)
         return dinputs
 
