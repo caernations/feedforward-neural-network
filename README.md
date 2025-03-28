@@ -5,19 +5,15 @@ Implementasi neural network sederhana menggunakan Python dan NumPy.
 ## Struktur Proyek
 
 ```
-.
-├── configs/
-│   └── config.yaml         # Konfigurasi model dan training
+├── docs/
 ├── src/
-│   ├── models/
-│   │   └── neural_network.py  # Implementasi model neural network
-│   ├── config/
-│   │   └── config.py      # Fungsi untuk memuat konfigurasi
-│   └── main.py            # Script utama untuk menjalankan model
-├── data/                  # Direktori untuk data
-├── models/                # Direktori untuk menyimpan model
-├── notebooks/            # Jupyter notebooks
-├── tests/                # Unit tests
+│   ├── models/    # Direktori untuk menyimpan model model neural network
+│   ├── configs/
+│   │   └── config_loader.py      # Fungsi untuk memuat konfigurasi
+│   ├── utils/    # Direktori file pembantu
+│   ├── main.py            # Script utama
+│   ├── notebook.py     # File test
+    └── notebook.ipynb
 └── requirements.txt      # Dependensi proyek
 ```
 
@@ -30,7 +26,7 @@ git clone https://github.com/caernations/feedforward-neural-network.git
 cd feedforward-neural-network
 ```
 
-2. Buat virtual environment (opsional tapi direkomendasikan):
+1. Buat virtual environment (opsional):
 
 ```bash
 python -m venv venv
@@ -74,7 +70,7 @@ File `config.yaml` berisi semua parameter yang dapat dikonfigurasi:
 - Progress bar untuk monitoring training
 
 ## Author
-| **Name**                                                | **NIM**  |
-| ------------------------------------------------------- | -------- |
-| [Yasmin Farisah Salma](https://github.com/caernations) | 13522140 |
-| [Mohammad Akmal Ramadan](https://github.com/akmalrmn)   | 13522161 |
+| **Name**                                                | **NIM**  | **Tugas** |
+| ------------------------------------------------------- | -------- | --------- |
+| [Yasmin Farisah Salma](https://github.com/caernations)  | 13522140 | Semuanya  |
+| [Mohammad Akmal Ramadan](https://github.com/akmalrmn)   | 13522161 | Semuanya  |

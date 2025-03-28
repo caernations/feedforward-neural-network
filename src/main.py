@@ -17,7 +17,6 @@ def main():
     X_train = X_train[val_size:] 
     y_train = y_train[val_size:]
 
-
     print("\nMembangun model FFNN...")
     model = FeedForwardNN(
         input_size=config['model']['input_size'],
@@ -55,13 +54,37 @@ def main():
     )
     loaded_model.load("saved_model.npy")
 
-    # # Visualisasi network
-    # print("\nVisualisasi jaringan:")
-    # visualizer = NetworkVisualizer(loaded_model)
-    # visualizer.visualize_network_structure()
-    # visualizer.visualize_weight_distribution()
-    # visualizer.visualize_weight_distribution([0, 1])
-    # visualizer.visualize_gradient_distribution()
+    # Prepare a sample batch for gradient visualization
+    print("\nMenyiapkan batch data untuk visualisasi gradien...")
+    batch_size = 32
+    random_indices = np.random.choice(len(X_train), batch_size)
+    X_batch = X_train[random_indices]
+    y_batch = y_train[random_indices]
+
+    # Create visualizer
+    visualizer = NetworkVisualizer(loaded_model)
+
+    print("\nVisualisasi struktur jaringan dengan bobot dan gradien:")
+    visualizer.visualize_network_structure(
+        max_neurons_per_layer=5,
+        max_connections_per_neuron=3,
+        show_gradients=True,
+        generate_gradients=True,
+        X_batch=X_batch,
+        y_batch=y_batch
+    )
+
+    # Visualize weight distributions
+    print("\nVisualisasi distribusi bobot:")
+    visualizer.visualize_weight_distribution()
+    
+    # Visualize weight distributions for selected layers
+    print("\nVisualisasi distribusi bobot layer tertentu:")
+    visualizer.visualize_weight_distribution([0, 1])
+    
+    # Visualize gradient distributions
+    print("\nVisualisasi distribusi gradien bobot:")
+    visualizer.visualize_gradient_distribution()
 
     def compute_accuracy(model, X, y):
         predictions = model.forward(X, training=False)

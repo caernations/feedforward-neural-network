@@ -71,21 +71,6 @@ class FeedForwardNN:
             raise ValueError(f"Unsupported loss function: {loss_function}")
 
     def forward(self, X, training=True):
-        """
-        Forward pass through the network
-
-        Parameters:
-        -----------
-        X : array-like
-            Input data, shape (batch_size, input_features)
-        training : bool
-            Whether this is a training pass (to store intermediate values)
-
-        Returns:
-        --------
-        array-like
-            Output predictions
-        """
         self.layer_outputs = []
 
         # Input layer
@@ -111,14 +96,6 @@ class FeedForwardNN:
         return self.loss_fn.forward(y_pred, y_true)
 
     def update_weights(self, learning_rate):
-        """
-        Update weights using gradient descent
-
-        Parameters:
-        -----------
-        learning_rate : float
-            Learning rate for gradient descent
-        """
         for layer in self.layers:
             layer.update(learning_rate)
 
@@ -208,30 +185,9 @@ class FeedForwardNN:
         return history
 
     def predict(self, X):
-        """
-        Make predictions for input data
-
-        Parameters:
-        -----------
-        X : array-like
-            Input data
-
-        Returns:
-        --------
-        array-like
-            Predictions
-        """
         return self.forward(X, training=False)
 
     def save(self, filename):
-        """
-        Save model to file
-
-        Parameters:
-        -----------
-        filename : str
-            Path to save the model
-        """
         loss_fn_name = None
         for name, func in self.loss_fn.__class__.__dict__.items():
             if func is self.loss_fn:
@@ -248,14 +204,6 @@ class FeedForwardNN:
         print(f"Model saved to {filename}")
 
     def load(self, filename):
-        """
-        Load model from file
-
-        Parameters:
-        -----------
-        filename : str
-            Path to the saved model
-        """
         model_data = np.load(filename, allow_pickle=True).item()
 
         for i, layer in enumerate(self.layers):
