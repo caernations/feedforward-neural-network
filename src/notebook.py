@@ -74,16 +74,22 @@ for cfg in depth_configs:
 plt.figure(figsize=(15,5))
 plt.subplot(1,2,1)
 for name, res in width_results.items():
-    plt.plot(res['history']['train_loss'], label=name)
-plt.title('Training Loss (Variasi Width)')
+    plt.plot(res['history']['train_loss'], label=f"{name} - Train")
+    if 'val_loss' in res['history']:
+        plt.plot(res['history']['val_loss'], linestyle='--', label=f"{name} - Val")
+
+plt.title('Training Loss vs Validation loss (Variasi Width)')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
 
 plt.subplot(1,2,2)
-for name, res in depth_results.items():
-    plt.plot(res['history']['train_loss'], label=name)
-plt.title('Training Loss (Variasi Depth)')
+for name, res in width_results.items():
+    plt.plot(res['history']['train_loss'], label=f"{name} - Train")
+    if 'val_loss' in res['history']:
+        plt.plot(res['history']['val_loss'], linestyle='--', label=f"{name} - Val")
+
+plt.title('Training Loss vs Validation loss (Variasi Depth)')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
@@ -108,9 +114,12 @@ for cfg in activation_configs:
     activation_results[cfg['name']] = {'history': history, 'accs': accs, 'model': model}
 
 plt.figure(figsize=(10, 5))
-for name, res in activation_results.items():
-    plt.plot(res['history']['train_loss'], label=name)
-plt.title('Training Loss (Fungsi Aktivasi)')
+for name, res in width_results.items():
+    plt.plot(res['history']['train_loss'], label=f"{name} - Train")
+    if 'val_loss' in res['history']:
+        plt.plot(res['history']['val_loss'], linestyle='--', label=f"{name} - Val")
+
+plt.title('Training Loss vs Validation loss (Fungsi Aktivasi)')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
@@ -131,9 +140,12 @@ for cfg in lr_configs:
     lr_results[cfg['name']] = {'history': history, 'accs': accs, 'model': model}
 
 plt.figure(figsize=(10, 5))
-for name, res in lr_results.items():
-    plt.plot(res['history']['train_loss'], label=name)
-plt.title('Training Loss (Learning Rate)')
+for name, res in width_results.items():
+    plt.plot(res['history']['train_loss'], label=f"{name} - Train")
+    if 'val_loss' in res['history']:
+        plt.plot(res['history']['val_loss'], linestyle='--', label=f"{name} - Val")
+
+plt.title('Training Loss vs Validation loss (Learning Rate)')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
@@ -155,9 +167,12 @@ for cfg in init_configs:
     init_results[cfg['name']] = {'history': history, 'accs': accs, 'model': model}
 
 plt.figure(figsize=(10, 5))
-for name, res in init_results.items():
-    plt.plot(res['history']['train_loss'], label=name)
-plt.title('Training Loss (Inisialisasi Bobot)')
+for name, res in width_results.items():
+    plt.plot(res['history']['train_loss'], label=f"{name} - Train")
+    if 'val_loss' in res['history']:
+        plt.plot(res['history']['val_loss'], linestyle='--', label=f"{name} - Val")
+
+plt.title('Training Loss vs Validation loss (Inisialisasi Bobot)')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()

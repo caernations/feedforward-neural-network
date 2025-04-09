@@ -25,7 +25,9 @@ def main():
         activations=config['model']['activations'],
         weight_init=config['model']['weight_init'],
         weight_init_params=config.get('weight_init_params', None),
-        loss_function=config['model']['loss_function']
+        loss_function=config['model']['loss_function'],
+        lambda_l1=float(config['model'].get('lambda_l1', 0.0)),
+        lambda_l2=float(config['model'].get('lambda_l2', 0.0))
     )
 
     # Training model
@@ -50,7 +52,9 @@ def main():
         activations=config['model']['activations'],
         weight_init=config['model']['weight_init'],
         weight_init_params=config.get('weight_init_params', None),
-        loss_function=config['model']['loss_function']
+        loss_function=config['model']['loss_function'],
+        lambda_l1=float(config['model'].get('lambda_l1', 0.0)),
+        lambda_l2=float(config['model'].get('lambda_l2', 0.0))
     )
     loaded_model.load("saved_model.npy")
 

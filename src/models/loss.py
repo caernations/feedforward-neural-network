@@ -67,6 +67,13 @@ class CategoricalCrossEntropy(Loss):
         self.dinputs /= samples
         return self.dinputs
 
+def l1_regularization(layers, lambda_l1):
+    return lambda_l1 * sum(np.sum(np.abs(layer.weights)) for layer in layers if hasattr(layer, 'weights'))
+
+def l2_regularization(layers, lambda_l2):
+    return lambda_l2 * sum(np.sum(layer.weights ** 2) for layer in layers if hasattr(layer, 'weights'))
+
+
 LossFunctions = {
     "mse": MSE(),
     "binary_crossentropy": BinaryCrossEntropy(),

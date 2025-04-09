@@ -3,10 +3,11 @@ from models.layers import DenseLayer
 from models.activations import ActivationFunctions
 from tqdm import tqdm
 from models.loss import LossFunctions 
+from models.loss import l1_regularization, l2_regularization
 
 class FeedForwardNN:
     def __init__(self, input_size, hidden_layers, output_size, activations,
-                 weight_init='xavier', weight_init_params=None, loss_function='categorical_crossentropy'):
+                 weight_init='xavier', weight_init_params=None, loss_function='categorical_crossentropy', lambda_l1=0.0, lambda_l2=0.0):
         """
         Initialize a Feedforward Neural Network
 
@@ -29,6 +30,9 @@ class FeedForwardNN:
         """
         self.layers = []
         self.layer_outputs = []  
+        self.lambda_l1 = lambda_l1
+        self.lambda_l2 = lambda_l2
+
 
         # Set up layers
         layer_sizes = [input_size] + hidden_layers + [output_size]
@@ -84,16 +88,25 @@ class FeedForwardNN:
 
         return current_output
 
+
     def backward(self, y_pred, y_true):
-        # Compute initial gradient from loss function
         dA = self.loss_fn.backward(y_pred, y_true)
-        
-        # Loop backwards through layers
+
         for i in reversed(range(len(self.layers))):
             dA = self.layers[i].backward(dA)
-        
-        # Compute and return the loss
-        return self.loss_fn.forward(y_pred, y_true)
+
+        # Base loss
+        base_loss = self.loss_fn.forward(y_pred, y_true)
+
+        # Regularization loss
+        reg_loss = 0
+        if self.lambda_l1 > 0:
+            reg_loss += l1_regularization(self.layers, self.lambda_l1)
+        if self.lambda_l2 > 0:
+            reg_loss += l2_regularization(self.layers, self.lambda_l2)
+
+        return base_loss + reg_loss
+
 
     def update_weights(self, learning_rate):
         for layer in self.layers:

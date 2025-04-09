@@ -6,6 +6,8 @@ model:
   activations: ["relu", "relu", "relu", "softmax"] 
   weight_init: "xavier"
   loss_function: "categorical_crossentropy"
+  lambda_l1: 0.0
+  lambda_l2: 1e-5
 
 # Training Parameters
 training:
@@ -14,7 +16,7 @@ training:
   epochs: 10
   verbose: 1
 
-# Weight Initialization Parameters (opsional)
+# Weight Initialization Parameters (optional)
 weight_init_params:
   lower_bound: -0.1
   upper_bound: 0.1
@@ -29,4 +31,4 @@ data:
 # Model Saving
 save:
   model_path: "models/saved_model.npy" 
-  save_frequency: 10 
+  save_frequency: 10

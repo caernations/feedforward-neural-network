@@ -1,7 +1,7 @@
 import yaml
 from typing import Dict, Any
 
-def load_config(config_path: str = 'configs/config.yaml') -> Dict[str, Any]:
+def load_config(config_path: str = 'src/configs/config.yaml') -> Dict[str, Any]:
     """
     Load configuration from a YAML file.
 
