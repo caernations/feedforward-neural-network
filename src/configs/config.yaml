@@ -7,7 +7,7 @@ model:
   weight_init: "xavier"
   loss_function: "categorical_crossentropy"
   lambda_l1: 0.0
-  lambda_l2: 1e-5
+  lambda_l2: 0.0
 
 # Training Parameters
 training:
